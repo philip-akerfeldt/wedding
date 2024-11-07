@@ -1,10 +1,12 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { i18n } from "../../../i18n-config";
-import { getDictionary } from "../../../get-dictionary";
-import { DictionariesProvider } from "../context/dictionaryContext";
+import '../globals.css'
 
+import localFont from 'next/font/local'
+
+import { getDictionary } from '../../../get-dictionary'
+import { i18n } from '../../../i18n-config'
+import { DictionariesProvider } from '../context/dictionaryContext'
+
+import type { Metadata } from "next";
 const josefinSans = localFont({
   src: "../../../public/fonts/josefin-sans/JosefinSans-Regular.ttf",
   variable: "--font-josefinSans"
@@ -30,17 +32,20 @@ export async function generateStaticParams() {
   return i18n.locales.map(locale => ({ lang: locale }));
 }
 
+interface RootLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>;
+}
+
 export default async function RootLayout({
   children,
   params
-}: {
-  children: React.ReactNode;
-  params: { lang: string };
-}) {
-  const dictionary = await getDictionary(params.lang as "sv" | "en");
+}: RootLayoutProps) {
+  const lang = (await params).lang;
+  const dictionary = await getDictionary(lang as "sv" | "en");
   return (
     <html
-      lang={params.lang}
+      lang={lang}
       className={`${josefinSans.variable} ${leJourSerif.variable} ${unJourMerveilleux.variable}`}
     >
       <DictionariesProvider dictionary={dictionary}>

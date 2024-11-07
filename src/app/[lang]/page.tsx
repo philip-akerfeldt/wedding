@@ -1,10 +1,11 @@
 "use client";
-import RSVPSection from "./sections/RSVPSection";
-import CountdownSection from "./sections/CountdownSection";
-import ToastMastersSection from "./sections/ToastMastersSection";
-import InformationSection from "./sections/InformationSection";
-import HeroSection from "./sections/HeroSection";
-import { useRef } from "react";
+import { Suspense, useRef } from 'react'
+
+import CountdownSection from './sections/CountdownSection'
+import HeroSection from './sections/HeroSection'
+import InformationSection from './sections/InformationSection'
+import RSVPSection from './sections/RSVPSection'
+import ToastMastersSection from './sections/ToastMastersSection'
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -15,7 +16,9 @@ export default function Home() {
         <div className="z-10 max-w-5xl w-full flex-col items-center justify-center font-mono text-sm lg:flex">
           <HeroSection sectionRef={ref} />
           <CountdownSection sectionRef={ref} />
-          <InformationSection />
+          <Suspense>
+            <InformationSection />
+          </Suspense>
           <ToastMastersSection />
           <RSVPSection />
         </div>
